@@ -42,13 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
     logoDimensions.top +
     (logoDimensions.height - logoBoundingBox.height * logoScaleFactor) / 2 -
     logoBoundingBox.y * logoScaleFactor;
-
   logoMask.setAttribute(
     "transform",
     `translate(${horizontalPosition}, ${verticalPosition}) scale(${logoScaleFactor})`
   );
 
-  scrollTrigger.create({
+  ScrollTrigger.create({
     trigger: ".hero",
     start: "top top",
     end: `${window.innerHeight * 5}px`,
@@ -95,6 +94,27 @@ document.addEventListener("DOMContentLoaded", () => {
           opacity: fadeoverlayOpacity,
         });
       }
+
+      if (scrollProgress > 0.6 && scrollProgress < 0.85) {
+        const overlayCopyRevealProgress = (scrollProgress - 0.6) * (1 / 0.25);
+
+        const gradientSpread = 100;
+        const gradientBottomPosition = 240 - overlayCopyRevealProgress * 280;
+        const gradientTopPosition = gradientBottomPosition - gradientSpread;
+        const overlayCopyScale = 1.25 - 0.25 * overlayCopyRevealProgress;
+
+        overlayCopy.style.background = `linear-gradient(to bottom, #111117 0%, #111117 ${gradientTopPosition}%, #e66461 ${gradientBottomPosition}%, #e66461 100%)`;
+        overlayCopy.style.backgroundClip = "text";
+
+        gsap.set(overlayCopy, {
+          scale: overlayCopyScale,
+          opacity: overlayCopyRevealProgress,
+        });
+      } else if (scrollProgress<= 0.6) {
+        gsap.set(overlayCopy, {
+          opacity: 0,
+        });
+        }     
     },
   });
 });

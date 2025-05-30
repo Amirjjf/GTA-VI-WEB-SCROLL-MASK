@@ -46,7 +46,7 @@ section {
 .hero-img-container,
 .hero-img-container img,
 .fade-overlay {
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -63,12 +63,12 @@ section {
     object-fit: contain;
 }
 
-#Characters {
+/* #Characters {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
+} */
 
 .hero-img-copy {
     position: absolute;
@@ -89,6 +89,7 @@ section {
 }
 
 .overlay {
+    position: absolute;
     top: 0;
     left: 0;
     transform-origin: center 15%;

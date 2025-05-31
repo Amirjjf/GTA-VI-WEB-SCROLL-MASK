@@ -24,30 +24,32 @@ document.addEventListener("DOMContentLoaded", () => {
   const logoContainer = document.querySelector(".logo-container");
   const logoMask = document.getElementById("logoMask");
   logoMask.setAttribute("d", logoData);
-
   // Function to update logo position responsively
   function updateLogoPosition() {
-    const logoDimensions = logoContainer.getBoundingClientRect();
     const logoBoundingBox = logoMask.getBBox();
-
-    const horizontalScaleRatio = logoDimensions.width / logoBoundingBox.width;
-    const verticalScaleRatio = logoDimensions.height / logoBoundingBox.height;
-    const logoScaleFactor = Math.min(horizontalScaleRatio, verticalScaleRatio);
-
-    // Calculate position relative to the SVG viewport center
+    
+    // Use fixed viewport coordinates for consistent positioning across screen sizes
     const svgWidth = window.innerWidth;
     const svgHeight = window.innerHeight;
     
-    // Get the center position of the logo container relative to the SVG
-    const containerCenterX = logoDimensions.left + logoDimensions.width / 2;
-    const containerCenterY = logoDimensions.top + logoDimensions.height / 2;
+    // Fixed center position - same across all screen sizes (center of viewport)
+    const fixedCenterX = svgWidth / 2;
+    const fixedCenterY = svgHeight * 0.25; // 25% from top, consistent position
     
-    // Calculate the offset needed to center the logo path at the container position
+    // Calculate scale based on a target size that works well across screens
+    const targetWidth = Math.min(200, svgWidth * 0.2); // Max 200px or 20% of screen width
+    const targetHeight = Math.min(150, svgHeight * 0.15); // Max 150px or 15% of screen height
+    
+    const horizontalScaleRatio = targetWidth / logoBoundingBox.width;
+    const verticalScaleRatio = targetHeight / logoBoundingBox.height;
+    const logoScaleFactor = Math.min(horizontalScaleRatio, verticalScaleRatio);
+    
+    // Calculate the offset needed to center the logo path at the fixed position
     const logoCenterX = (logoBoundingBox.x + logoBoundingBox.width / 2) * logoScaleFactor;
     const logoCenterY = (logoBoundingBox.y + logoBoundingBox.height / 2) * logoScaleFactor;
     
-    const horizontalPosition = containerCenterX - logoCenterX;
-    const verticalPosition = containerCenterY - logoCenterY;
+    const horizontalPosition = fixedCenterX - logoCenterX;
+    const verticalPosition = fixedCenterY - logoCenterY;
 
     logoMask.setAttribute(
       "transform",

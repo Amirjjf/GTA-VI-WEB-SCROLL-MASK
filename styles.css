@@ -101,7 +101,7 @@ section {
 .logo-container {
     position: fixed;
     top: 25%;
-    left: 51%;
+    left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
     width: 200px;

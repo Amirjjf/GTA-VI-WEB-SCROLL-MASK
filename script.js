@@ -23,29 +23,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const initialOverlayScale = 350;
   const logoContainer = document.querySelector(".logo-container");
   const logoMask = document.getElementById("logoMask");
-
   logoMask.setAttribute("d", logoData);
 
-  const logoDimensions = logoContainer.getBoundingClientRect();
-  const logoBoundingBox = logoMask.getBBox();
+  // Function to update logo position responsively
+  function updateLogoPosition() {
+    const logoDimensions = logoContainer.getBoundingClientRect();
+    const logoBoundingBox = logoMask.getBBox();
 
-  const horizontalScaleRatio = logoDimensions.width / logoBoundingBox.width;
-  const verticalScaleRatio = logoDimensions.height / logoBoundingBox.height;
-  const logoScaleFactor = Math.min(horizontalScaleRatio, verticalScaleRatio);
+    const horizontalScaleRatio = logoDimensions.width / logoBoundingBox.width;
+    const verticalScaleRatio = logoDimensions.height / logoBoundingBox.height;
+    const logoScaleFactor = Math.min(horizontalScaleRatio, verticalScaleRatio);
 
-  const horizontalPosition =
-    logoDimensions.left +
-    (logoDimensions.width - logoBoundingBox.width * logoScaleFactor) / 2 -
-    logoBoundingBox.x * logoScaleFactor;
+    // Calculate position relative to the SVG viewport center
+    const svgWidth = window.innerWidth;
+    const svgHeight = window.innerHeight;
+    
+    // Get the center position of the logo container relative to the SVG
+    const containerCenterX = logoDimensions.left + logoDimensions.width / 2;
+    const containerCenterY = logoDimensions.top + logoDimensions.height / 2;
+    
+    // Calculate the offset needed to center the logo path at the container position
+    const logoCenterX = (logoBoundingBox.x + logoBoundingBox.width / 2) * logoScaleFactor;
+    const logoCenterY = (logoBoundingBox.y + logoBoundingBox.height / 2) * logoScaleFactor;
+    
+    const horizontalPosition = containerCenterX - logoCenterX;
+    const verticalPosition = containerCenterY - logoCenterY;
 
-  const verticalPosition =
-    logoDimensions.top +
-    (logoDimensions.height - logoBoundingBox.height * logoScaleFactor) / 2 -
-    logoBoundingBox.y * logoScaleFactor;
-  logoMask.setAttribute(
-    "transform",
-    `translate(${horizontalPosition}, ${verticalPosition}) scale(${logoScaleFactor})`
-  );
+    logoMask.setAttribute(
+      "transform",
+      `translate(${horizontalPosition}, ${verticalPosition}) scale(${logoScaleFactor})`
+    );
+  }
+
+  // Initial positioning
+  updateLogoPosition();
+
+  // Update positioning on window resize
+  window.addEventListener('resize', updateLogoPosition);
 
   ScrollTrigger.create({
     trigger: ".hero",

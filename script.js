@@ -24,30 +24,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const logoContainer = document.querySelector(".logo-container");
   const logoMask = document.getElementById("logoMask");
   logoMask.setAttribute("d", logoData);
-  // Function to update logo position responsively
+
   function updateLogoPosition() {
     const logoBoundingBox = logoMask.getBBox();
-    
-    // Use fixed viewport coordinates for consistent positioning across screen sizes
     const svgWidth = window.innerWidth;
     const svgHeight = window.innerHeight;
-    
-    // Fixed center position - same across all screen sizes (center of viewport)
     const fixedCenterX = svgWidth / 2;
-    const fixedCenterY = svgHeight * 0.25; // 25% from top, consistent position
-    
-    // Calculate scale based on a target size that works well across screens
-    const targetWidth = Math.min(200, svgWidth * 0.2); // Max 200px or 20% of screen width
-    const targetHeight = Math.min(150, svgHeight * 0.15); // Max 150px or 15% of screen height
-    
+    let verticalPercentage = 0.25;
+    if (svgWidth <= 768) {
+      verticalPercentage = 0.22;
+    } else if (svgWidth <= 900) {
+      verticalPercentage = 0.23;
+    }
+    const fixedCenterY = svgHeight * verticalPercentage;
+    const targetWidth = Math.min(200, svgWidth * 0.2);
+    const targetHeight = Math.min(150, svgHeight * 0.15);
     const horizontalScaleRatio = targetWidth / logoBoundingBox.width;
     const verticalScaleRatio = targetHeight / logoBoundingBox.height;
     const logoScaleFactor = Math.min(horizontalScaleRatio, verticalScaleRatio);
-    
-    // Calculate the offset needed to center the logo path at the fixed position
     const logoCenterX = (logoBoundingBox.x + logoBoundingBox.width / 2) * logoScaleFactor;
     const logoCenterY = (logoBoundingBox.y + logoBoundingBox.height / 2) * logoScaleFactor;
-    
     const horizontalPosition = fixedCenterX - logoCenterX;
     const verticalPosition = fixedCenterY - logoCenterY;
 
@@ -57,10 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  // Initial positioning
   updateLogoPosition();
-
-  // Update positioning on window resize
   window.addEventListener('resize', updateLogoPosition);
 
   ScrollTrigger.create({
@@ -87,11 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (scrollProgress < 0.85) {
         const normalizedProgress = scrollProgress * (1 / 0.85);
         const heroImgContainerScale = 1.5 - 0.5 * normalizedProgress;
-
         const overlayScale =
           initialOverlayScale *
           Math.pow(1 / initialOverlayScale, normalizedProgress);
-
         let fadeoverlayOpacity = 0;
 
         gsap.set(heroImgContainer, {
@@ -113,7 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (scrollProgress > 0.6 && scrollProgress < 0.85) {
         const overlayCopyRevealProgress = (scrollProgress - 0.6) * (1 / 0.25);
-
         const gradientSpread = 100;
         const gradientBottomPosition = 240 - overlayCopyRevealProgress * 280;
         const gradientTopPosition = gradientBottomPosition - gradientSpread;
@@ -126,11 +116,11 @@ document.addEventListener("DOMContentLoaded", () => {
           scale: overlayCopyScale,
           opacity: overlayCopyRevealProgress,
         });
-      } else if (scrollProgress<= 0.6) {
+      } else if (scrollProgress <= 0.6) {
         gsap.set(overlayCopy, {
           opacity: 0,
         });
-        }     
+      }
     },
   });
 });

@@ -33,7 +33,6 @@ p {
   font-weight: 500;
   line-height: 0.8;
 }
-
 section {
   position: relative;
   width: 100vw;
@@ -58,9 +57,10 @@ section {
     top: 20%;
     left: 50%;
     transform: translate(-50%, 0);
-    width: 250px;
+    width: max(15%, 150px);
     height: auto;
     object-fit: contain;
+    will-change: opacity;
 }
 
 .hero-img-copy {
@@ -69,7 +69,17 @@ section {
     left: 50%;
     transform: translate(-50%, 0);
     will-change: opacity;
-    bottom: 10%;
+    bottom: 20%;
+    animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(-50%, 0);
+    }
+    50% {
+        transform: translate(-50%, -10px);
+    }
 }
 
 .hero-img-copy p {

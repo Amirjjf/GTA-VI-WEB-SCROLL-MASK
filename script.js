@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const gradientTopPosition = gradientBottomPosition - gradientSpread;
         const overlayCopyScale = 1.25 - 0.25 * overlayCopyRevealProgress;
 
-        overlayCopy.style.background = `linear-gradient(to bottom, #111117 0%, #111117 ${gradientTopPosition}%, #e66461 ${gradientBottomPosition}%, #e66461 100%)`;
+        overlayCopy.style.background = `linear-gradient(to bottom, rgba(17, 17, 23, 0) 0%, rgba(17, 17, 23, 0) ${gradientTopPosition}%, #e66461 ${gradientBottomPosition}%, #e66461 100%)`;
         overlayCopy.style.backgroundClip = "text";
 
         gsap.set(overlayCopy, {

@@ -27,19 +27,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateLogoPosition() {
     const svgEl = svgOverlay.querySelector('svg');
+    if (!svgEl) return;
+
     const vb = svgEl.viewBox.baseVal;
+    if (!vb || vb.width === 0 || vb.height === 0) return;
+
     const vbWidth = vb.width;
     const vbHeight = vb.height;
-    // center point in viewBox coords (through letter A)
+
+    // Center point in viewBox coords (through letter A)
     const fixedCenterX = vbWidth / 2;
     const fixedCenterY = vbHeight * 0.12;
+
     const logoBoundingBox = logoMask.getBBox();
-    // mask target size in viewBox units
+    if (!logoBoundingBox || logoBoundingBox.width === 0 || logoBoundingBox.height === 0) {
+        logoMask.removeAttribute("transform");
+        return;
+    }
+
+    // Mask target size in viewBox units (original logic)
     const targetWidth = Math.min(200, vbWidth * 0.2);
     const targetHeight = Math.min(150, vbHeight * 0.15);
+
     const horizontalScaleRatio = targetWidth / logoBoundingBox.width;
     const verticalScaleRatio = targetHeight / logoBoundingBox.height;
-    const logoScaleFactor = Math.min(horizontalScaleRatio, verticalScaleRatio);
+    
+    let logoScaleFactor = Math.min(horizontalScaleRatio, verticalScaleRatio);
+
+    if (!isFinite(logoScaleFactor) || logoScaleFactor < 0) {
+        logoScaleFactor = 0; 
+    }
+
     const logoCenterX = (logoBoundingBox.x + logoBoundingBox.width / 2) * logoScaleFactor;
     const logoCenterY = (logoBoundingBox.y + logoBoundingBox.height / 2) * logoScaleFactor;
     const horizontalPosition = fixedCenterX - logoCenterX;

@@ -6,7 +6,13 @@ import Lenis from "lenis";
 gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener("DOMContentLoaded", () => {
-  const lenis = new Lenis();
+  const lenis = new Lenis({
+    duration: 0.8, 
+    easing: "easeInOutQuad", 
+    smoothWheel: true,
+    smoothTouch: true,
+    touchMultiplier: 2, 
+  });
   lenis.on("scroll", ScrollTrigger.update);
   gsap.ticker.add((time) => {
     lenis.raf(time * 1000);

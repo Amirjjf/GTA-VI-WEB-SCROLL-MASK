@@ -151,9 +151,10 @@ section {
     }
 
     .overlay {
-        transform-origin: center 24%;
+        /* keep same origin & size as desktop so mask aligns consistently */
+        transform-origin: center 13%;
         width: 100%;
-        height: 100%;
+        height: 200%;
     }
 }
 

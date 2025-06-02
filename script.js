@@ -26,19 +26,17 @@ document.addEventListener("DOMContentLoaded", () => {
   logoMask.setAttribute("d", logoData);
 
   function updateLogoPosition() {
+    const svgEl = svgOverlay.querySelector('svg');
+    const vb = svgEl.viewBox.baseVal;
+    const vbWidth = vb.width;
+    const vbHeight = vb.height;
+    // center point in viewBox coords (through letter A)
+    const fixedCenterX = vbWidth / 2;
+    const fixedCenterY = vbHeight * 0.12;
     const logoBoundingBox = logoMask.getBBox();
-    const svgWidth = window.innerWidth;
-    const svgHeight = window.innerHeight;
-    const fixedCenterX = svgWidth / 2;
-    let verticalPercentage = 0.25;
-    if (svgWidth <= 768) {
-      verticalPercentage = 0.22;
-    } else if (svgWidth <= 900) {
-      verticalPercentage = 0.23;
-    }
-    const fixedCenterY = svgHeight * verticalPercentage;
-    const targetWidth = Math.min(200, svgWidth * 0.2);
-    const targetHeight = Math.min(150, svgHeight * 0.15);
+    // mask target size in viewBox units
+    const targetWidth = Math.min(200, vbWidth * 0.2);
+    const targetHeight = Math.min(150, vbHeight * 0.15);
     const horizontalScaleRatio = targetWidth / logoBoundingBox.width;
     const verticalScaleRatio = targetHeight / logoBoundingBox.height;
     const logoScaleFactor = Math.min(horizontalScaleRatio, verticalScaleRatio);

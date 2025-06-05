@@ -126,13 +126,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (scrollProgress > 0.6 && scrollProgress < 0.85) {
         const overlayCopyRevealProgress = (scrollProgress - 0.6) * (1 / 0.25);
-        const gradientSpread = 100;
-        const gradientBottomPosition = 240 - overlayCopyRevealProgress * 280;
-        const gradientTopPosition = gradientBottomPosition - gradientSpread;
         const overlayCopyScale = 1.25 - 0.25 * overlayCopyRevealProgress;
 
-        overlayCopy.style.background = `linear-gradient(to bottom, rgba(17, 17, 23, 0) 0%, rgba(17, 17, 23, 0) ${gradientTopPosition}%, #e66461 ${gradientBottomPosition}%, #e66461 100%)`;
-        overlayCopy.style.backgroundClip = "text";
+        overlayCopy.style.background = 'linear-gradient(to bottom right,rgb(255, 55, 162) 0%,rgb(254, 105, 160) 33%,rgb(255, 191, 165) 66%,rgb(251, 223, 175) 100%)';
+        overlayCopy.style.backgroundClip = 'text';
+        overlayCopy.style.webkitTextFillColor = 'transparent'; // Retain compatibility for text fill
 
         gsap.set(overlayCopy, {
           scale: overlayCopyScale,

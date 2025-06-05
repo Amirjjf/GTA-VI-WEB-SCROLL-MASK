@@ -19,8 +19,8 @@ This project replicates the scroll-based SVG mask animation from the official GT
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/gta6-mask-effect.git
-   cd gta6-mask-effect
+   git clone https://github.com/your-username/GTA-VI-WEB-SCROLL-MASK.git
+   cd GTA-VI-WEB-SCROLL-MASK
    ```
 
 2. Install dependencies:
